@@ -9,6 +9,7 @@ A password generator written with NodeJS. The app generates a password and store
 4. Delete an account
 
 ***NOTE:***
+
 To use the app, make sure that you have NodeJS installed on your personal machine.
 
 Enter command in the terminal.
