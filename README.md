@@ -8,8 +8,7 @@ A password generator written with NodeJS. The app generates a password and store
 3. Edit a password for an existing account.
 4. Delete an account
 
-5. ***NOTE:***
-6. 
+***NOTE:***
 To use the app, make sure that you have NodeJS installed on your personal machine.
 
 Enter command in the terminal.
