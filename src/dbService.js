@@ -40,10 +40,22 @@ async function deleteAccnt(website, email) {
 
 async function updatePass(password, website, email) {
   try {
-    const str =
-      "UPDATE passwords SET password=$1 WHERE website=$2 AND email=$3 RETURNING email, password";
-    const res = await db.query(str, [password, website, email]);
+    let str = "SELECT password FROM passwords WHERE website=$1 AND email=$2";
+    let res = await db.query(str, [website, email]);
+    const { password: prevPass } = res.rows[0];
+    str =
+      "UPDATE passwords SET password=$1 WHERE website=$2 AND email=$3 RETURNING password_id";
+    res = await db.query(str, [password, website, email]);
     if (res.rows.length === 0) return { message: "error" };
+
+    const { password_id } = res.rows[0];
+    try {
+      const prevStr = "INSERT INTO prev_passwords(password_id, password) VALUES($1, $2)";
+      await db.query(prevStr, [password_id, prevPass]);
+    } catch (err) {
+      console.error("Error storing previous password: ", err.message);
+      return { message: "error" };
+    }
     return { message };
   } catch (err) {
     console.error("Error updating password: ", err.message);
